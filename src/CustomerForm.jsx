@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import axios from "axios";
+import NavigationBar from "./NavigationBar";
 
 function CustomerForm(){
   const [customerData, setCustomerData] = useState({
@@ -81,6 +82,7 @@ function CustomerForm(){
 
   return (
     <div>
+      <NavigationBar />
       <form style={formStyles} onSubmit={handleSubmit}>
         <h3>Add/Edit Customer</h3>
 

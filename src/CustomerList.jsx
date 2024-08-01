@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import { Link } from "react-router-dom";
+import NavigationBar from "./NavigationBar";
 // import { OrderList } from "./OrderList";
 /* https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/ */
 
@@ -24,25 +26,12 @@ class CustomerList extends Component {
 
     // Setting our state to an object with a list of customers and a selectedCustomerID 
     this.state = {
-      // Customer array - blank array because we are defaulting that we don't have any customers 
       customers: [],
-
-      // Be able to select the customer we want and save their ID 
-      // null because we don't have any selected customer (allows us check truthyness of selectedCustomerValue)
       selectedCustomerID: null,
-
-      // Pets (that are also shopping from our e-commerce website)
-      pets: [], 
-
-      selectedPetID: null, 
     }; 
   }
 
-  /* 
-  componentDidMount() is invoked immediately after a component is mounted (inserted into the tree). 
-  Initialization that requires DOM nodes should go here. 
-  If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
-   */  
+  // Step 1: Mounting
   componentDidMount(){
     // Simulate fetching data from an API 
     // const response = await fetch(`https://exampleapi.com/)
@@ -63,33 +52,10 @@ class CustomerList extends Component {
     ]; 
 
     // Setting customer list = fetched customer data 
-    // Fetched customer data is emulating reponse data from API 
     this.setState({customers: fetchedCustomers})
-
-    //  Fetching the pets and saving the pets to our state
-    const fetchedPets = [
-      {
-        name: "Tortuga",
-        type: "Tortoise",
-        age: 102
-      }, 
-      {
-        name: "Lassie",
-        type: "Dog",
-        age: 5
-      }, 
-      {
-        name: "Kermit",
-        type: "Frog",
-        age: 3,
-      }
-    ]
-
-    this.setState({pets: fetchedPets})
   }
 
 
-  // Actually updating our page 
   selectCustomer = (id) => {
     // Set the state of selectedCustomerID - id 
     this.setState({ selectedCustomerID: id}); 
@@ -100,20 +66,9 @@ class CustomerList extends Component {
     console.log(`The default customer id is ${this.props.defaultCustomerID}`)
   }
 
-  // Select Pet 
-  selectPet = (petID) => {
-    this.setState({ selectedPetID: petID}); 
-    alert(`Selected pet: ${petID}`)
-  }
-
-
-  // Step 2: Show that we updated the page 
-  // componentDidUpdate() is invoked immediately after updating occurs. This method is not called for the initial render.
+  // Step 2: Updating 
   componentDidUpdate(prevProps, prevState) {
-
-    // We only call upon props from parent container IF the state has changed 
     if (prevState.selectedCustomerID !== this.state.selectedCustomerID){
-      // this.props.handleCustomerSelect ( this.state.selectedCustomerID )
       console.log(`New customer selected: ID ${this.state.selectedCustomerID}`); 
     }
   }
@@ -123,35 +78,31 @@ class CustomerList extends Component {
     console.log("CustomerList component is being unmounted"); 
   }
 
+  // Delete customer 
+  deleteCustomer = (customerIDToDelete) => {
+    const newCustomerList = this.state.customers.filter(customer => customer.id !== customerIDToDelete); 
+    this.setState({customers: newCustomerList}); 
+  }
+
   render() {
     const {customers, selectedCustomerID, pets} = this.state; 
-    // const customers = this.state.customers
 
     return (
       <div className="customer-list">
+        <NavigationBar />
         <h3>Customers</h3>
         <ul>
-          { this.state.customers.map(customer => (
-            <li key={customer.id} onClick={() => this.selectCustomer(customer.id)}>{customer.name}</li>
+          { customers.map(customer => (
+            <li key={customer.id} onClick={() => this.selectCustomer(customer.id)}>
+              {/* We want to edit customer: '/edit-customer/:id' */}
+              <Link to={`/edit-customer/${customer.id}`}>{customer.name}</Link>
+
+              {/* Delete the customer (pretend we have a function here) */}
+              <button onClick={() => this.deleteCustomer(customer.id)}>Delete</button>
+            </li>
           )) }
         </ul>
 
-        {/* Create unordered list */}
-        {/* Map the pets array as list items */}
-        <ul>
-          { pets.map((pet, index) => (
-            <li key={index} onClick={() => this.selectPet(index+1)} > {pet.name} - {pet.type}, Age: {pet.age} </li>
-          )) }
-        </ul>
-
-        {/* { selectedCustomerID && (
-          <>
-            <h3>Selected Customer</h3>
-            <p>Selected Customer ID: {selectedCustomerID}</p>
-
-            <OrderList customerID={selectedCustomerID}/>
-          </>
-        )} */}
       </div>
     )
   }

@@ -2,8 +2,10 @@ import React, {useEffect, useState} from "react";
 
 // GOAL": load the orders for the selectedCustomer 
 export function OrderList(props) {
+
   // We want to take in a parameter, customerID 
   const { customerID } = props; 
+  // const customerID = props.customerID
 
   // UseState to define the list of orders (default is set to an empty array)
   // const [variable, setVariable (function to update state value)] = useState(default value)
