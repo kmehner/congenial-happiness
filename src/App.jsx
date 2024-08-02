@@ -27,7 +27,7 @@ function App() {
         {/* Add customer - CustomerForm element */}
         <Route path='/add-customer/' element={ <CustomerFormWrapper /> }/>
         {/* Edit customer - CustomerForm */}
-        {/* <Route path='/edit-customer/:id/' element={ <CustomerFormWrapper /> }/>  */}
+        <Route path='/edit-customer/:id/' element={ <CustomerFormWrapper /> }/> 
         {/* Look at customer list (aka customers) - CustomerList */}
         <Route path='/customers' element={ <CustomerList /> } />
 
