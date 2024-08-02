@@ -4,6 +4,7 @@ import CustomerList from './CustomerList'
 import CustomerForm from './CustomerForm'; 
 import ProductList from './ProductList'
 import ProductForm from './ProductForm';
+import CustomerFormWrapper from './CustomerFormWrapper';
 import "./AppStyles.css"; 
 import { Home } from './Home';
 import { NotFound } from './NotFound';
@@ -24,9 +25,9 @@ function App() {
         {/* Customer related routes  */}
 
         {/* Add customer - CustomerForm element */}
-        <Route path='/add-customer/' element={ <CustomerForm /> }/>
+        <Route path='/add-customer/' element={ <CustomerFormWrapper /> }/>
         {/* Edit customer - CustomerForm */}
-        <Route path='/edit-customer/:id/' element={ <CustomerForm /> }/> 
+        {/* <Route path='/edit-customer/:id/' element={ <CustomerFormWrapper /> }/>  */}
         {/* Look at customer list (aka customers) - CustomerList */}
         <Route path='/customers' element={ <CustomerList /> } />
 
